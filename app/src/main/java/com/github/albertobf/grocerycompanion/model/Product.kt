@@ -1,9 +1,6 @@
 package com.github.albertobf.grocerycompanion.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 @Entity(foreignKeys = [
     ForeignKey(
@@ -17,6 +14,6 @@ data class Product(
     var id: Long = 0L,
     val name: String,
     val size: Float,
-    @ColumnInfo(name = "sizetype_id")
-    val sizeTypeId: Long
+    @Embedded(prefix = "sizetype_")
+    val sizeType: SizeType
 )
