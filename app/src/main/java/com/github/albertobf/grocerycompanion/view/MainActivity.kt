@@ -1,7 +1,8 @@
-package com.github.albertobf.grocerycompanion
+package com.github.albertobf.grocerycompanion.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.github.albertobf.grocerycompanion.R
 
 class MainActivity : AppCompatActivity() {
 
