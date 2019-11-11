@@ -8,11 +8,11 @@ import com.github.albertobf.grocerycompanion.model.Supermarket
 @Dao
 interface SupermarketDao {
     @Insert
-    fun insert(supermarket: Supermarket)
+    suspend fun insert(supermarket: Supermarket)
 
     @Query("SELECT * FROM Supermarket ORDER BY name ASC")
-    fun getAll() : List<Supermarket>
+    suspend fun getAll() : List<Supermarket>
 
     @Query("SELECT * FROM Supermarket WHERE id = :id")
-    fun getById(id: Long) : Supermarket
+    suspend fun getById(id: Long) : Supermarket
 }
