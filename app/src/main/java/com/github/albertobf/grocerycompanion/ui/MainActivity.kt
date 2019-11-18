@@ -1,4 +1,4 @@
-package com.github.albertobf.grocerycompanion.view
+package com.github.albertobf.grocerycompanion.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
