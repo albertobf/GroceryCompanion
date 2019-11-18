@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Grocery Companion</string>
+    <string name="products_list_size_label">Size:</string>
 </resources>
