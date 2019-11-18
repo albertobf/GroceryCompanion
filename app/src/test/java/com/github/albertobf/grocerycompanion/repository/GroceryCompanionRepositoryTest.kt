@@ -2,14 +2,8 @@ package com.github.albertobf.grocerycompanion.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.github.albertobf.grocerycompanion.database.PriceSupermarketDao
-import com.github.albertobf.grocerycompanion.database.ProductDao
-import com.github.albertobf.grocerycompanion.database.SizeTypeDao
-import com.github.albertobf.grocerycompanion.database.SupermarketDao
-import com.github.albertobf.grocerycompanion.model.PriceSupermarket
-import com.github.albertobf.grocerycompanion.model.Product
-import com.github.albertobf.grocerycompanion.model.SizeType
-import com.github.albertobf.grocerycompanion.model.Supermarket
+import com.github.albertobf.grocerycompanion.database.*
+import com.github.albertobf.grocerycompanion.model.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
@@ -36,6 +30,8 @@ class GroceryCompanionRepositoryTest {
     private lateinit var priceSupermarketDao: PriceSupermarketDao
     @Mock
     private lateinit var supermarketDao: SupermarketDao
+    @Mock
+    private lateinit var currencyDao: CurrencyDao
 
     private val sizeType = SizeType(1L, "g")
     private val productColacao = Product(name = "Colacao", size = 500f, sizeType = sizeType)
@@ -46,7 +42,7 @@ class GroceryCompanionRepositoryTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         groceryCompanionRepository = GroceryCompanionRepository(productDao, sizeTypeDao,
-            priceSupermarketDao, supermarketDao)
+            priceSupermarketDao, supermarketDao, currencyDao)
     }
 
     @Test
@@ -162,13 +158,43 @@ class GroceryCompanionRepositoryTest {
         assertThat(sizeTypes, `is`(expected))
     }
 
+    @Test
+    fun `should return a list of Currency`() = runBlockingTest {
+        //Arrange
+        val currency = Currency(name = "EUR")
+        val expected = listOf(currency)
+        Mockito.`when`(currencyDao.getAll()).thenReturn(expected)
+        //Act
+        val currencies: List<Currency> = groceryCompanionRepository.getCurrencies()
+        //Assert
+        assertThat(currencies, `is`(expected))
+    }
+
+    @Test
+    fun `should return the correct currency when fetching a currency`() = runBlockingTest {
+        //Arrange
+        val id = 1L
+        val expected = Currency(id,"GBP")
+        Mockito.`when`(currencyDao.getById(id)).thenReturn(expected)
+        //Act
+        val currency = groceryCompanionRepository.getCurrency(id)
+        //Assert
+        assertEquals(expected, currency)
+    }
+
+    @Test
+    fun `should save Currency on the database`() = runBlockingTest {
+        //Arrange
+        val currency = Currency(name = "GBP")
+        //Act
+        groceryCompanionRepository.addCurrency(currency)
+        //Assert
+        Mockito.verify(currencyDao).insert(currency)
+    }
+
     private fun mockListProducts() {
         val productsList = MutableLiveData<List<Product>>(listOf(productColacao,
             productColacaoSF))
         Mockito.`when`(productDao.getAll()).thenReturn(productsList)
-    }
-
-    private suspend fun mockSizeType() {
-        Mockito.`when`(sizeTypeDao.getById(Mockito.anyLong())).thenReturn(SizeType(1L, "g"))
     }
 }

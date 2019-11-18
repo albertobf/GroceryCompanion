@@ -1,20 +1,16 @@
 package com.github.albertobf.grocerycompanion.repository
 
 import androidx.lifecycle.LiveData
-import com.github.albertobf.grocerycompanion.database.PriceSupermarketDao
-import com.github.albertobf.grocerycompanion.database.ProductDao
-import com.github.albertobf.grocerycompanion.database.SizeTypeDao
-import com.github.albertobf.grocerycompanion.database.SupermarketDao
-import com.github.albertobf.grocerycompanion.model.PriceSupermarket
-import com.github.albertobf.grocerycompanion.model.Product
-import com.github.albertobf.grocerycompanion.model.SizeType
-import com.github.albertobf.grocerycompanion.model.Supermarket
+import com.github.albertobf.grocerycompanion.database.*
+import com.github.albertobf.grocerycompanion.model.*
+import javax.inject.Inject
 
-class GroceryCompanionRepository(
+class GroceryCompanionRepository @Inject constructor(
     private val productDao: ProductDao,
     private val sizeTypeDao: SizeTypeDao,
     private val priceSupermarketDao: PriceSupermarketDao,
-    private val supermarketDao: SupermarketDao
+    private val supermarketDao: SupermarketDao,
+    private val currencyDao: CurrencyDao
 ) {
 
     fun getAllProducts() : LiveData<List<Product>> = productDao.getAll()
@@ -33,5 +29,11 @@ class GroceryCompanionRepository(
     suspend fun getSupermarkets(): List<Supermarket> = supermarketDao.getAll()
 
     suspend fun getSizeTypes(): List<SizeType> = sizeTypeDao.getAll()
+
+    suspend fun getCurrencies(): List<Currency> = currencyDao.getAll()
+
+    suspend fun getCurrency(id: Long) = currencyDao.getById(id)
+
+    suspend fun addCurrency(currency: Currency) = currencyDao.insert(currency)
 
 }
