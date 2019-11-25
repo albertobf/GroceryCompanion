@@ -2,14 +2,19 @@ package com.github.albertobf.grocerycompanion.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.github.albertobf.grocerycompanion.repository.GroceryCompanionRepository
 import javax.inject.Inject
+import javax.inject.Provider
 
-class ViewModelFactory @Inject constructor(private val repository: GroceryCompanionRepository) : ViewModelProvider.Factory {
+class ViewModelFactory @Inject constructor(private val viewModelsMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(ProductsListViewModel::class.java)) {
-            return ProductsListViewModel(repository) as T
+        val creator = viewModelsMap[modelClass] ?:
+        viewModelsMap.asIterable().firstOrNull {
+            modelClass.isAssignableFrom(it.key)
+        }?.value ?: throw IllegalArgumentException("unknown model class $modelClass")
+        return try {
+            creator.get() as T
+        } catch (e: Exception) {
+            throw RuntimeException(e)
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

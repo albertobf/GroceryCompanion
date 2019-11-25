@@ -1,4 +1,4 @@
-package com.github.albertobf.grocerycompanion.viewmodel
+package com.github.albertobf.grocerycompanion.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,8 +6,9 @@ import com.github.albertobf.grocerycompanion.database.init.getInitCurrencies
 import com.github.albertobf.grocerycompanion.database.init.getInitSizeType
 import com.github.albertobf.grocerycompanion.repository.GroceryCompanionRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProductsListViewModel(private val groceryCompanionRepository: GroceryCompanionRepository) : ViewModel() {
+class ProductsListViewModel @Inject constructor(private val groceryCompanionRepository: GroceryCompanionRepository) : ViewModel() {
 
     val products = groceryCompanionRepository.getAllProducts()
 
