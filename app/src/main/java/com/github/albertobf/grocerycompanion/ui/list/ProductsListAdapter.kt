@@ -1,4 +1,4 @@
-package com.github.albertobf.grocerycompanion.ui
+package com.github.albertobf.grocerycompanion.ui.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
