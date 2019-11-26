@@ -34,8 +34,8 @@ class GroceryCompanionRepositoryTest {
     private lateinit var currencyDao: CurrencyDao
 
     private val sizeType = SizeType(1L, "g")
-    private val productColacao = Product(name = "Colacao", size = 500f, sizeType = sizeType)
-    private val productColacaoSF = Product(name = "Colacao Sugar Free", size = 500f, sizeType = sizeType)
+    private val productColacao = Product(name = "Colacao", size = 500, sizeType = sizeType)
+    private val productColacaoSF = Product(name = "Colacao Sugar Free", size = 500, sizeType = sizeType)
     private val supermarket = Supermarket(name = "ASDA")
 
     @Before
@@ -88,7 +88,7 @@ class GroceryCompanionRepositoryTest {
     @Test
     fun `should save product on database when product is added`() = runBlockingTest {
         //Arrange
-        val productColacao = Product(name = "Colacao", size = 500f, sizeType = sizeType)
+        val productColacao = Product(name = "Colacao", size = 500, sizeType = sizeType)
         //Act
         groceryCompanionRepository.addProduct(productColacao)
         //Assert
@@ -156,6 +156,18 @@ class GroceryCompanionRepositoryTest {
         val sizeTypes: List<SizeType> = groceryCompanionRepository.getSizeTypes()
         //Assert
         assertThat(sizeTypes, `is`(expected))
+    }
+
+    @Test
+    fun `should return the correct SizeType when querying with the name`() = runBlockingTest {
+        //Arrange
+        val expected = "g"
+        val sizeType = SizeType(name = expected)
+        Mockito.`when`(sizeTypeDao.getByName(expected)).thenReturn(sizeType)
+        //Act
+        val result = groceryCompanionRepository.getSizeTypeByName(expected)
+        //Assert
+        assertEquals(expected, result.name)
     }
 
     @Test

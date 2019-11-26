@@ -15,4 +15,7 @@ interface SizeTypeDao {
 
     @Query("SELECT * FROM SizeType WHERE id = :id")
     suspend fun getById(id: Long) : SizeType
+
+    @Query("SELECT * FROM SizeType WHERE name = :name")
+    suspend fun getByName(name: String): SizeType
 }

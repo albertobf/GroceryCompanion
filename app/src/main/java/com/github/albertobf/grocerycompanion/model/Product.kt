@@ -13,7 +13,7 @@ data class Product(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0L,
     val name: String,
-    val size: Float,
+    val size: Int,
     @Embedded(prefix = "sizetype_")
     val sizeType: SizeType
 )

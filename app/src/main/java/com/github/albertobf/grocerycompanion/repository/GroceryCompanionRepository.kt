@@ -30,6 +30,8 @@ class GroceryCompanionRepository @Inject constructor(
 
     suspend fun getSizeTypes(): List<SizeType> = sizeTypeDao.getAll()
 
+    suspend fun getSizeTypeByName(sizeTypeName: String) : SizeType = sizeTypeDao.getByName(sizeTypeName)
+
     suspend fun getCurrencies(): List<Currency> = currencyDao.getAll()
 
     suspend fun getCurrency(id: Long) = currencyDao.getById(id)

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.github.albertobf.grocerycompanion.GroceryCompanion
 
 import com.github.albertobf.grocerycompanion.R
@@ -32,7 +33,9 @@ class AddProductFragment : Fragment() {
             container,
             false
         )
+        binding.lifecycleOwner = this
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(AddProductViewModel::class.java)
+        binding.viewModel = viewModel
         return binding.root
     }
 
@@ -44,6 +47,11 @@ class AddProductFragment : Fragment() {
                 val arrayAdapter = ArrayAdapter(activity!!.applicationContext,
                     R.layout.dropdown_menu_popup_item, sizeTypesDesc)
                 binding.addProductSizeType.setAdapter(arrayAdapter)
+            }
+        })
+        viewModel.navigate.observe(this, Observer {navigate ->
+            if(navigate) {
+                findNavController().navigate(R.id.action_addProductFragment_to_productsListFragment)
             }
         })
     }
