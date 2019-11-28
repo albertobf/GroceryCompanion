@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/productsListFragment"
         android:name="com.github.albertobf.grocerycompanion.ui.list.ProductsListFragment"
-        android:label="ProductsListFragment" >
+        android:label="Products">
         <action
             android:id="@+id/action_productsListFragment_to_addProductFragment"
             app:destination="@id/addProductFragment" />
