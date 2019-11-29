@@ -34,6 +34,7 @@ class RoomTest {
     private lateinit var productDao: ProductDao
     private lateinit var priceSupermarketDao: PriceSupermarketDao
     private lateinit var db: GroceryCompanionDatabase
+    private val supermarket = Supermarket(ID,"ASDA")
 
     @Before
     fun setup() {
@@ -128,7 +129,7 @@ class RoomTest {
     @Test
     fun productInsertTest() = runBlocking {
         insertSizeType()
-        val product = Product(name = "Colacao", size = 400f, sizeType = SizeType(ID, "kg"))
+        val product = Product(name = "Colacao", size = 400, sizeType = SizeType(ID, "kg"))
         productDao.insert(product)
         assertEquals(productDao.getAll().getOrAwaitValue().size, 1)
     }
@@ -136,7 +137,7 @@ class RoomTest {
     @Test
     fun productGetByIdTest() = runBlocking {
         insertSizeType()
-        val product = Product(ID, "Colacao", 400f, SizeType(ID, "kg"))
+        val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
         assertThat(productDao.getById(ID), `is`(product))
     }
@@ -144,8 +145,8 @@ class RoomTest {
     @Test
     fun productGetAllTest() = runBlocking {
         insertSizeType()
-        val product = Product(name = "Colacao", size = 400f, sizeType = SizeType(ID, "kg"))
-        val product2 = Product(name = "Colacao", size = 800f, sizeType = SizeType(ID, "kg"))
+        val product = Product(name = "Colacao", size = 400, sizeType = SizeType(ID, "kg"))
+        val product2 = Product(name = "Colacao", size = 800, sizeType = SizeType(ID, "kg"))
         productDao.insert(product)
         productDao.insert(product2)
         assertThat(productDao.getAll().getOrAwaitValue().size, `is`(2))
@@ -158,7 +159,7 @@ class RoomTest {
         insertProduct()
         insertSupermarket()
         insertCurrency()
-        val priceSupermarket = PriceSupermarket(ID, ID, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(ID, supermarket, BigDecimal(3), ID)
         priceSupermarketDao.insert(priceSupermarket)
         assertEquals(priceSupermarketDao.getAll().size, 1)
     }
@@ -168,9 +169,9 @@ class RoomTest {
         insertSizeType()
         insertSupermarket()
         insertCurrency()
-        val product = Product(ID, "Colacao", 400f, SizeType(ID, "kg"))
+        val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
-        val priceSupermarket = PriceSupermarket(product.id, ID, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
         priceSupermarketDao.insert(priceSupermarket)
         assertEquals(priceSupermarketDao.getByProductId(product.id), listOf(priceSupermarket))
     }
@@ -180,16 +181,16 @@ class RoomTest {
         insertSizeType()
         insertSupermarket()
         insertCurrency()
-        val product = Product(ID, "Colacao", 400f, SizeType(ID, "kg"))
+        val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
-        val priceSupermarket = PriceSupermarket(product.id, ID, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
         priceSupermarketDao.insert(priceSupermarket)
 
         val expected = BigDecimal(10)
         priceSupermarket.price = expected
         priceSupermarketDao.update(priceSupermarket)
         val updatedPriceSupermarket = priceSupermarketDao.getByProductAndSupermarket(
-            priceSupermarket.productId, priceSupermarket.supermarketId)
+            priceSupermarket.productId, priceSupermarket.supermarket.id)
         assertThat(updatedPriceSupermarket.price, `is`(expected))
     }
 
@@ -198,11 +199,11 @@ class RoomTest {
     }
 
     private suspend fun insertProduct() {
-        productDao.insert(Product(ID, "Colacao", 400f, SizeType(ID, "kg")))
+        productDao.insert(Product(ID, "Colacao", 400, SizeType(ID, "kg")))
     }
 
     private suspend fun insertSupermarket() {
-        supermarketDao.insert(Supermarket(ID,"ASDA"))
+        supermarketDao.insert(supermarket)
     }
 
     private suspend fun insertCurrency() {

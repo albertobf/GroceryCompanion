@@ -64,7 +64,7 @@ class GroceryCompanionRepositoryTest {
     fun `should return a list of priceSupermarket when retrieving prices of a product`() = runBlockingTest {
         //Arrange
         mockListProducts()
-        val priceSupermarket = PriceSupermarket(productColacao.id, supermarket.id, BigDecimal(3), 1L)
+        val priceSupermarket = PriceSupermarket(productColacao.id, supermarket, BigDecimal(3), 1L)
         val expected = listOf(priceSupermarket)
         Mockito.`when`(priceSupermarketDao.getByProductId(Mockito.anyLong())).thenReturn(expected)
         //Act
@@ -77,7 +77,7 @@ class GroceryCompanionRepositoryTest {
     fun `should save changes when updating the price of a product`() = runBlockingTest {
         //Arrange
         mockListProducts()
-        val priceSupermarket = PriceSupermarket(productColacao.id, supermarket.id, BigDecimal(3), 1L)
+        val priceSupermarket = PriceSupermarket(productColacao.id, supermarket, BigDecimal(3), 1L)
         Mockito.`when`(priceSupermarketDao.getByProductId(Mockito.anyLong())).thenReturn(listOf(priceSupermarket))
         //Act
         groceryCompanionRepository.updatePrice(priceSupermarket)
