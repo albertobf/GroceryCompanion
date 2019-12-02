@@ -194,6 +194,23 @@ class RoomTest {
         assertThat(updatedPriceSupermarket.price, `is`(expected))
     }
 
+    @Test
+    fun pricesProduct() = runBlocking {
+        insertSizeType()
+        insertSupermarket()
+        insertCurrency()
+        val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
+        productDao.insert(product)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
+        priceSupermarketDao.insert(priceSupermarket)
+        val supermarket2 = Supermarket(name = "TESCO")
+        supermarketDao.insert(supermarket2)
+        val priceSupermarket2 = PriceSupermarket(product.id, supermarket2, BigDecimal(5), ID)
+        priceSupermarketDao.insert(priceSupermarket2)
+        val pricesProduct = productDao.getPrices(ID)
+        assertThat(pricesProduct.priceSupermarket.size, `is`(2))
+    }
+
     private suspend fun insertSizeType() {
         sizeTypeDao.insert(SizeType(ID, "g"))
     }
