@@ -65,10 +65,10 @@ class GroceryCompanionRepositoryTest {
         //Arrange
         mockListProducts()
         val priceSupermarket = PriceSupermarket(productColacao.id, supermarket, BigDecimal(3), 1L)
-        val expected = listOf(priceSupermarket)
-        Mockito.`when`(priceSupermarketDao.getByProductId(Mockito.anyLong())).thenReturn(expected)
+        val expected = PricesProduct(productColacao, listOf(priceSupermarket))
+        Mockito.`when`(productDao.getPrices(Mockito.anyLong())).thenReturn(expected)
         //Act
-        val prices: List<PriceSupermarket> = groceryCompanionRepository.getPricesProduct(productColacao.id)
+        val prices: PricesProduct = groceryCompanionRepository.getPricesProduct(productColacao.id)
         //Assert
         assertThat(prices, `is`(expected))
     }

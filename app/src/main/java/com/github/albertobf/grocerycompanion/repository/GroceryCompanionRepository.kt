@@ -15,7 +15,7 @@ class GroceryCompanionRepository @Inject constructor(
 
     fun getAllProducts() : LiveData<List<Product>> = productDao.getAll()
 
-    suspend fun getPricesProduct(productId: Long) = priceSupermarketDao.getByProductId(productId)
+    suspend fun getPricesProduct(productId: Long) = productDao.getPrices(productId)
 
     suspend fun updatePrice(priceSupermarket: PriceSupermarket) =
         priceSupermarketDao.update(priceSupermarket)
