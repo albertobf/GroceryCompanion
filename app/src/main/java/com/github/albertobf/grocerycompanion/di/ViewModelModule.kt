@@ -3,6 +3,7 @@ package com.github.albertobf.grocerycompanion.di
 import androidx.lifecycle.ViewModel
 import com.github.albertobf.grocerycompanion.ui.addproduct.AddProductViewModel
 import com.github.albertobf.grocerycompanion.ui.list.ProductsListViewModel
+import com.github.albertobf.grocerycompanion.ui.productdetail.ProductDetailViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,5 +20,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AddProductViewModel::class)
     abstract fun bindAddProductViewModel(addProductViewModel: AddProductViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProductDetailViewModel::class)
+    abstract fun bindProductDetailViewModel(productDetailViewModel: ProductDetailViewModel): ViewModel
 
 }

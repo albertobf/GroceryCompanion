@@ -38,8 +38,10 @@ class ProductsListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val productsListAdapter =
-            ProductsListAdapter()
+        val productsListAdapter = ProductsListAdapter {
+            val action = ProductsListFragmentDirections.actionProductsListFragmentToProductDetail(it.id)
+            findNavController().navigate(action)
+        }
         binding.productsList.adapter = productsListAdapter
         productsListViewModel.products.observe(this, Observer {products ->
             productsListAdapter.submitList(products)

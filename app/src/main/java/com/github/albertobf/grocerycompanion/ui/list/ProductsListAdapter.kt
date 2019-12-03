@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.albertobf.grocerycompanion.databinding.ProductsItemListBinding
 import com.github.albertobf.grocerycompanion.model.Product
 
-class ProductsListAdapter : ListAdapter<Product, ProductsListAdapter.ViewHolder>(ProductDiffCallback()) {
+class ProductsListAdapter(private val listener: (Product) -> Unit) :
+    ListAdapter<Product, ProductsListAdapter.ViewHolder>(ProductDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -17,12 +18,14 @@ class ProductsListAdapter : ListAdapter<Product, ProductsListAdapter.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val product = getItem(position)
+        holder.bind(product, listener)
     }
 
     class ViewHolder(private val binding: ProductsItemListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
+        fun bind(product: Product, listener: (Product) -> Unit) {
             binding.product = product
+            binding.root.setOnClickListener{listener(product)}
         }
     }
 }
