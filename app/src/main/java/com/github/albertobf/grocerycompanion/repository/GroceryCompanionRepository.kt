@@ -22,20 +22,29 @@ class GroceryCompanionRepository @Inject constructor(
 
     suspend fun addProduct(product: Product) = productDao.insert(product)
 
-    suspend fun addSupermarket(supermarket: Supermarket) = supermarketDao.insert(supermarket)
+    suspend fun addSupermarket(supermarket: Supermarket): Long = supermarketDao.insert(supermarket)
 
     suspend fun addSizeType(sizeType: SizeType) = sizeTypeDao.insert(sizeType)
 
     suspend fun getSupermarkets(): List<Supermarket> = supermarketDao.getAll()
 
+    suspend fun getSupermarketsName(): List<String> = supermarketDao.getNames()
+
     suspend fun getSizeTypes(): List<SizeType> = sizeTypeDao.getAll()
 
-    suspend fun getSizeTypeByName(sizeTypeName: String) : SizeType = sizeTypeDao.getByName(sizeTypeName)
+    suspend fun getSizeTypeByName(name: String) : SizeType = sizeTypeDao.getByName(name)
 
     suspend fun getCurrencies(): List<Currency> = currencyDao.getAll()
 
     suspend fun getCurrency(id: Long) = currencyDao.getById(id)
 
     suspend fun addCurrency(currency: Currency) = currencyDao.insert(currency)
+
+    suspend fun getSupermarketByName(name: String) = supermarketDao.getByName(name)
+
+    suspend fun getCurrencyByName(name: String) = currencyDao.getByName(name)
+
+    suspend fun savePriceSupermarket(priceSupermarket: PriceSupermarket) =
+        priceSupermarketDao.insert(priceSupermarket)
 
 }

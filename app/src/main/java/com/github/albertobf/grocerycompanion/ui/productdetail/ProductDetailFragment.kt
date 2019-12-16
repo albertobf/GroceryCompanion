@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.github.albertobf.grocerycompanion.GroceryCompanion
 import com.github.albertobf.grocerycompanion.R
 import com.github.albertobf.grocerycompanion.databinding.ProductDetailFragmentBinding
@@ -42,6 +43,11 @@ class ProductDetailFragment : Fragment() {
         viewModel.pricesProduct.observe(this, Observer {
             binding.pricesProduct = viewModel.pricesProduct.value
         })
+        binding.addPriceButton.setOnClickListener {
+            val productParcelable = viewModel.getProductParcelable()
+            val action = ProductDetailFragmentDirections.actionProductDetailToAddPriceFragment(productParcelable)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onAttach(context: Context) {

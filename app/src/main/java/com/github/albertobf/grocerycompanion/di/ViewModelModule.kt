@@ -1,7 +1,9 @@
 package com.github.albertobf.grocerycompanion.di
 
 import androidx.lifecycle.ViewModel
+import com.github.albertobf.grocerycompanion.ui.AddPriceViewModel
 import com.github.albertobf.grocerycompanion.ui.addproduct.AddProductViewModel
+import com.github.albertobf.grocerycompanion.ui.addsupermarket.AddSupermarketViewModel
 import com.github.albertobf.grocerycompanion.ui.list.ProductsListViewModel
 import com.github.albertobf.grocerycompanion.ui.productdetail.ProductDetailViewModel
 import dagger.Binds
@@ -25,5 +27,15 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ProductDetailViewModel::class)
     abstract fun bindProductDetailViewModel(productDetailViewModel: ProductDetailViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddPriceViewModel::class)
+    abstract fun bindAddPriceViewModel(addPriceViewModel: AddPriceViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddSupermarketViewModel::class)
+    abstract fun bindAddSupermarketViewModel(addSupermarketViewModel: AddSupermarketViewModel): ViewModel
 
 }

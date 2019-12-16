@@ -15,4 +15,7 @@ interface CurrencyDao {
 
     @Query("SELECT * FROM Currency WHERE id = :id")
     suspend fun getById(id: Long) : Currency
+
+    @Query("SELECT * FROM Currency WHERE name = :name")
+    suspend fun getByName(name: String): Currency
 }

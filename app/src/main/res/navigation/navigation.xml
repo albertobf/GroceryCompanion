@@ -35,5 +35,22 @@
         <argument
             android:name="productId"
             app:argType="long" />
+        <action
+            android:id="@+id/action_productDetail_to_addPriceFragment"
+            app:destination="@id/addPriceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPriceFragment"
+        android:name="com.github.albertobf.grocerycompanion.ui.AddPriceFragment"
+        android:label="Add Price"
+        tools:layout="@layout/add_price_fragment" >
+        <argument
+            android:name="product"
+            app:argType="com.github.albertobf.grocerycompanion.model.parcelable.ProductParcelable" />
+        <action
+            android:id="@+id/action_addPriceFragment_to_productDetail"
+            app:destination="@id/productDetail"
+            app:popUpTo="@+id/productDetail"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
