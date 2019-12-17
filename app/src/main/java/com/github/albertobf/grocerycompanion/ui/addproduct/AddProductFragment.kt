@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -51,6 +52,8 @@ class AddProductFragment : Fragment() {
         })
         viewModel.navigate.observe(this, Observer {navigate ->
             if(navigate) {
+                val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view!!.windowToken, 0)
                 findNavController().navigate(R.id.action_addProductFragment_to_productsListFragment)
             }
         })
