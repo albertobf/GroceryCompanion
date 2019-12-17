@@ -41,10 +41,11 @@ class ProductDetailFragment : Fragment() {
         val productId = ProductDetailFragmentArgs.fromBundle(requireArguments()).productId
         viewModel.loadProductDetails(productId)
 
-        viewModel.pricesProduct.observe(this, Observer {
+        viewModel.pricesProduct.observe(this, Observer {pricesProduct ->
             binding.pricesProduct = viewModel.pricesProduct.value
             val adapter = ProductDetailAdapter()
-            adapter.submitList(it.priceSupermarket)
+            val orderedList = pricesProduct.priceSupermarket.sortedBy { it.price }
+            adapter.submitList(orderedList)
             binding.detailProductPricesList.adapter = adapter
         })
 
