@@ -37,6 +37,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:text="@{pricesProduct.product.name}"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     tools:text="@tools:sample/first_names" />
 
                 <TextView
@@ -47,7 +48,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@{String.valueOf(pricesProduct.product.size)}"
+                    android:text="@{Integer.toString(pricesProduct.product.size)+pricesProduct.product.sizeType.name}"
                     tools:text="@tools:sample/last_names" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
