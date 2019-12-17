@@ -9,4 +9,5 @@
     <string name="hint_product_price">Price</string>
     <string name="add_button">Add</string>
     <string name="hint_currency">Currency</string>
+    <string name="product_detail_price_label">Price:</string>
 </resources>

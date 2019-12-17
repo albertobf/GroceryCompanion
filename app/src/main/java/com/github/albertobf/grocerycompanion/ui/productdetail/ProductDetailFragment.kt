@@ -40,9 +40,14 @@ class ProductDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val productId = ProductDetailFragmentArgs.fromBundle(requireArguments()).productId
         viewModel.loadProductDetails(productId)
+
         viewModel.pricesProduct.observe(this, Observer {
             binding.pricesProduct = viewModel.pricesProduct.value
+            val adapter = ProductDetailAdapter()
+            adapter.submitList(it.priceSupermarket)
+            binding.detailProductPricesList.adapter = adapter
         })
+
         binding.addPriceButton.setOnClickListener {
             val productParcelable = viewModel.getProductParcelable()
             val action = ProductDetailFragmentDirections.actionProductDetailToAddPriceFragment(productParcelable)
