@@ -67,6 +67,12 @@ class AddPriceFragment : Fragment(), AddSupermarketDialog.SupermarketDialogListe
             viewModel.savePrice()
         }
 
+        viewModel.error.observe(this, Observer { error ->
+            if(error) {
+                binding.addPriceSupermarketTil.error = getString(R.string.error_add_price)
+            }
+        })
+
         viewModel.priceSaved.observe(this, Observer {saved ->
             if(saved) {
                 val action = AddPriceFragmentDirections.actionAddPriceFragmentToProductDetail(viewModel.product.value!!.id)

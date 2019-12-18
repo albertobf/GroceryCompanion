@@ -59,6 +59,7 @@
             android:layout_margin="16dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/add_price_supermarket_til"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

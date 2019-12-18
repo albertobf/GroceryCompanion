@@ -10,4 +10,5 @@
     <string name="add_button">Add</string>
     <string name="hint_currency">Currency</string>
     <string name="product_detail_price_label">Price:</string>
+    <string name="error_add_price">There is already a price for this supermarket</string>
 </resources>

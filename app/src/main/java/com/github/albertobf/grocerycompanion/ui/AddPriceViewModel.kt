@@ -1,11 +1,11 @@
 package com.github.albertobf.grocerycompanion.ui
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.albertobf.grocerycompanion.model.PriceSupermarket
-import com.github.albertobf.grocerycompanion.model.PricesProduct
 import com.github.albertobf.grocerycompanion.model.parcelable.ProductParcelable
 import com.github.albertobf.grocerycompanion.repository.GroceryCompanionRepository
 import kotlinx.coroutines.launch
@@ -25,6 +25,7 @@ class AddPriceViewModel @Inject constructor(private val repository: GroceryCompa
         get() = _currencies
     val currencyName = MutableLiveData<String>()
     val priceSaved = MutableLiveData<Boolean>(false)
+    val error = MutableLiveData<Boolean>(false)
 
     init {
         loadSupermarkets()
@@ -50,8 +51,12 @@ class AddPriceViewModel @Inject constructor(private val repository: GroceryCompa
             val priceBD = BigDecimal(price.value)
             val currency = repository.getCurrencyByName(currencyName.value!!)
             val priceSupermarket = PriceSupermarket(productId, supermarket, priceBD, currency)
-            repository.savePriceSupermarket(priceSupermarket)
-            priceSaved.value = true
+            try {
+                repository.savePriceSupermarket(priceSupermarket)
+                priceSaved.value = true
+            } catch (e: SQLiteConstraintException) {
+                error.value = true
+            }
         }
     }
 
