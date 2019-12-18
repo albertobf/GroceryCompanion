@@ -25,6 +25,6 @@ data class PriceSupermarket(
     @Embedded(prefix = "supermarket_")
     val supermarket: Supermarket,
     var price: BigDecimal,
-    @ColumnInfo(name = "currency_id")
-    val currencyId: Long
+    @Embedded(prefix = "currency_")
+    val currency: Currency
 )

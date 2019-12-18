@@ -49,7 +49,7 @@ class AddPriceViewModel @Inject constructor(private val repository: GroceryCompa
             val supermarket = repository.getSupermarketByName(supermarketName.value!!)
             val priceBD = BigDecimal(price.value)
             val currency = repository.getCurrencyByName(currencyName.value!!)
-            val priceSupermarket = PriceSupermarket(productId, supermarket, priceBD, currency.id)
+            val priceSupermarket = PriceSupermarket(productId, supermarket, priceBD, currency)
             repository.savePriceSupermarket(priceSupermarket)
             priceSaved.value = true
         }

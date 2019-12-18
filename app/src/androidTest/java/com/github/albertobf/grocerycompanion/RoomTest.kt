@@ -35,6 +35,7 @@ class RoomTest {
     private lateinit var priceSupermarketDao: PriceSupermarketDao
     private lateinit var db: GroceryCompanionDatabase
     private val supermarket = Supermarket(ID,"ASDA")
+    private val currency = Currency(ID, "EUR")
 
     @Before
     fun setup() {
@@ -159,7 +160,7 @@ class RoomTest {
         insertProduct()
         insertSupermarket()
         insertCurrency()
-        val priceSupermarket = PriceSupermarket(ID, supermarket, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(ID, supermarket, BigDecimal(3), currency)
         priceSupermarketDao.insert(priceSupermarket)
         assertEquals(priceSupermarketDao.getAll().size, 1)
     }
@@ -171,7 +172,7 @@ class RoomTest {
         insertCurrency()
         val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
-        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), currency)
         priceSupermarketDao.insert(priceSupermarket)
         assertEquals(priceSupermarketDao.getByProductId(product.id), listOf(priceSupermarket))
     }
@@ -183,7 +184,7 @@ class RoomTest {
         insertCurrency()
         val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
-        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), currency)
         priceSupermarketDao.insert(priceSupermarket)
 
         val expected = BigDecimal(10)
@@ -201,11 +202,11 @@ class RoomTest {
         insertCurrency()
         val product = Product(ID, "Colacao", 400, SizeType(ID, "kg"))
         productDao.insert(product)
-        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), ID)
+        val priceSupermarket = PriceSupermarket(product.id, supermarket, BigDecimal(3), currency)
         priceSupermarketDao.insert(priceSupermarket)
         val supermarket2 = Supermarket(name = "TESCO")
         supermarketDao.insert(supermarket2)
-        val priceSupermarket2 = PriceSupermarket(product.id, supermarket2, BigDecimal(5), ID)
+        val priceSupermarket2 = PriceSupermarket(product.id, supermarket2, BigDecimal(5), currency)
         priceSupermarketDao.insert(priceSupermarket2)
         val pricesProduct = productDao.getPrices(ID)
         assertThat(pricesProduct.priceSupermarket.size, `is`(2))
@@ -224,6 +225,6 @@ class RoomTest {
     }
 
     private suspend fun insertCurrency() {
-        currencyDao.insert(Currency(ID, "EUR"))
+        currencyDao.insert(currency)
     }
 }
